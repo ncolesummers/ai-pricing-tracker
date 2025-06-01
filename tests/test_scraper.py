@@ -2,14 +2,10 @@
 
 import json
 import pytest
-import sys
 from pathlib import Path
 from unittest.mock import Mock, patch
 
-# Add scripts directory to path before importing the scraper
-sys.path.insert(0, "scripts")
-# Import scraper module after modifying sys.path
-from scrape_pricing import AIPricingScraper  # noqa: E402
+from ai_pricing_tracker.scripts.scrape_pricing import AIPricingScraper
 
 
 @pytest.fixture
@@ -81,12 +77,12 @@ class TestAIPricingScraper:
         assert simplified["pricing"]["anthropic/claude-opus-4"]["input"] == 15.0
         assert simplified["pricing"]["openai/gpt-4"]["output"] == 60.0
 
-    @patch("playwright.sync_api.sync_playwright")
+    @patch("ai_pricing_tracker.scripts.scrape_pricing.sync_playwright")
     def test_scrape_anthropic_pricing_fallback(
         self, mock_playwright: Mock, scraper: AIPricingScraper
     ) -> None:
         """Test Anthropic scraping with fallback data."""
-        # Mock playwright to raise an exception
+        # Mock playwright to raise an exception when called
         mock_playwright.side_effect = Exception("Network error")
 
         result = scraper.scrape_anthropic_pricing()
@@ -96,12 +92,12 @@ class TestAIPricingScraper:
         assert "scraping_error" in result
         assert result["models"]["claude-opus-4"]["note"] == "Fallback data - update manually"
 
-    @patch("playwright.sync_api.sync_playwright")
+    @patch("ai_pricing_tracker.scripts.scrape_pricing.sync_playwright")
     def test_scrape_openai_pricing_fallback(
         self, mock_playwright: Mock, scraper: AIPricingScraper
     ) -> None:
         """Test OpenAI scraping with fallback data."""
-        # Mock playwright to raise an exception
+        # Mock playwright to raise an exception when called
         mock_playwright.side_effect = Exception("Network error")
 
         result = scraper.scrape_openai_pricing()

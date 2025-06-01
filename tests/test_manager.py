@@ -14,7 +14,13 @@ from ai_pricing_tracker import PricingManager, PricingNotFoundError
 def temp_cache_dir(tmp_path: Path) -> Path:
     """Create a temporary cache directory."""
     cache_dir = tmp_path / "test_cache"
-    cache_dir.mkdir()
+    cache_dir.mkdir(parents=True, exist_ok=True)
+
+    # Create a default cache file to prevent FileNotFound errors
+    cache_file = cache_dir / "pricing_cache.json"
+    with open(cache_file, "w") as f:
+        json.dump({"last_updated": datetime.utcnow().isoformat(), "pricing": {}}, f)
+
     return cache_dir
 
 
@@ -24,7 +30,11 @@ def mock_pricing_data() -> dict:
     return {
         "last_updated": datetime.utcnow().isoformat(),
         "pricing": {
-            "anthropic/claude-opus-4": {"input": 15.0, "output": 75.0, "currency": "USD"},
+            "anthropic/claude-opus-4": {
+                "input": 15.0,
+                "output": 75.0,
+                "currency": "USD",
+            },
             "openai/gpt-4": {"input": 30.0, "output": 60.0, "currency": "USD"},
         },
     }
@@ -108,11 +118,17 @@ class TestPricingManager:
         """Test update check logic."""
         manager = PricingManager(cache_dir=temp_cache_dir, auto_update=True, cache_hours=24)
 
+        # Fresh file (created by fixture) - should not update
+        assert manager._should_update() is False
+
+        # Remove cache file to test file not found case
+        cache_file = temp_cache_dir / "pricing_cache.json"
+        os.remove(cache_file)
+
         # No cache file - should update
         assert manager._should_update() is True
 
         # Create fresh cache file
-        cache_file = temp_cache_dir / "pricing_cache.json"
         with open(cache_file, "w") as f:
             json.dump({"pricing": {}}, f)
 

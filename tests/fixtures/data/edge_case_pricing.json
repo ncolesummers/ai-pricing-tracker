@@ -1,0 +1,35 @@
+{
+    "last_updated": "2024-05-01T12:00:00Z",
+    "providers": [
+        {
+            "provider": "anthropic",
+            "url": "https://www.anthropic.com/pricing",
+            "models": {
+                "claude-free": {
+                    "name": "Claude Free",
+                    "input_price_per_1m_tokens": 0.0,
+                    "output_price_per_1m_tokens": 0.0,
+                    "currency": "USD"
+                },
+                "claude-enterprise": {
+                    "name": "Claude Enterprise",
+                    "input_price_per_1m_tokens": 9999.99,
+                    "output_price_per_1m_tokens": 9999.99,
+                    "currency": "EUR"
+                }
+            }
+        },
+        {
+            "provider": "test",
+            "url": "https://example.com/pricing",
+            "models": {
+                "test-model": {
+                    "name": "Test Model",
+                    "input_price_per_1m_tokens": -1.0,
+                    "output_price_per_1m_tokens": null,
+                    "currency": "USD"
+                }
+            }
+        }
+    ]
+}

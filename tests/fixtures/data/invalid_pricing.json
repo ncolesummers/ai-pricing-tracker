@@ -1,0 +1,20 @@
+{
+    "providers": [
+        {
+            "provider": "anthropic",
+            "models": {
+                "claude-opus-4": {
+                    "name": "Claude Opus 4",
+                    "input_price_per_1m_tokens": 15.0,
+                    "output_price_per_1m_tokens": 75.0
+                    
+                }
+            }
+        },
+        {
+            "provider": "openai",
+            "url": "https://openai.com/pricing",
+            "models": {}
+        }
+    ]
+}

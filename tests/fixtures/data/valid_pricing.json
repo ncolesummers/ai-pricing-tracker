@@ -1,0 +1,53 @@
+{
+    "last_updated": "2024-05-01T12:00:00Z",
+    "providers": [
+        {
+            "provider": "anthropic",
+            "url": "https://www.anthropic.com/pricing",
+            "models": {
+                "claude-opus-4": {
+                    "name": "Claude Opus 4",
+                    "input_price_per_1m_tokens": 15.0,
+                    "output_price_per_1m_tokens": 75.0,
+                    "currency": "USD"
+                },
+                "claude-sonnet-4": {
+                    "name": "Claude Sonnet 4",
+                    "input_price_per_1m_tokens": 3.0,
+                    "output_price_per_1m_tokens": 15.0,
+                    "currency": "USD"
+                },
+                "claude-haiku-3-5": {
+                    "name": "Claude Haiku 3.5",
+                    "input_price_per_1m_tokens": 0.25,
+                    "output_price_per_1m_tokens": 1.25,
+                    "currency": "USD"
+                }
+            }
+        },
+        {
+            "provider": "openai",
+            "url": "https://openai.com/pricing",
+            "models": {
+                "gpt-4": {
+                    "name": "GPT-4",
+                    "input_price_per_1m_tokens": 30.0,
+                    "output_price_per_1m_tokens": 60.0,
+                    "currency": "USD"
+                },
+                "gpt-4-turbo": {
+                    "name": "GPT-4 Turbo",
+                    "input_price_per_1m_tokens": 10.0,
+                    "output_price_per_1m_tokens": 30.0,
+                    "currency": "USD"
+                },
+                "gpt-3-5-turbo": {
+                    "name": "GPT-3.5 Turbo",
+                    "input_price_per_1m_tokens": 0.5,
+                    "output_price_per_1m_tokens": 1.5,
+                    "currency": "USD"
+                }
+            }
+        }
+    ]
+}

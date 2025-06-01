@@ -56,6 +56,8 @@ setup(
     entry_points={
         "console_scripts": [
             "ai-pricing-update=ai_pricing_tracker.cli:main",
+            "ai-pricing-scrape=ai_pricing_tracker.scripts.scrape_pricing:main",
+            "ai-pricing-validate=ai_pricing_tracker.scripts.validate_pricing:main",
         ],
     },
 )

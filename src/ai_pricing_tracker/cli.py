@@ -48,7 +48,11 @@ def main() -> int:
 
             if args.json:
                 output = {
-                    k: {"input": v.input_price, "output": v.output_price, "currency": v.currency}
+                    k: {
+                        "input": v.input_price,
+                        "output": v.output_price,
+                        "currency": v.currency,
+                    }
                     for k, v in models.items()
                 }
                 print(json.dumps(output, indent=2))
@@ -68,7 +72,10 @@ def main() -> int:
 
         elif args.command == "calc":
             cost = manager.calculate_cost(
-                args.provider, args.model, args.input_tokens, args.output_tokens
+                args.provider,
+                args.model,
+                args.input_tokens,
+                args.output_tokens,
             )
             print(f"Cost calculation for {args.provider}/{args.model}:")
             print(f"  Input tokens:  {args.input_tokens:,}")

@@ -1,0 +1,74 @@
+# .github/workflows/update-ai-pricing.yml
+name: Update AI Pricing Data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update-ai-pricing.yml'
+      - 'scripts/scrape_pricing.py'
+  workflow_dispatch: # Allow manual trigger
+  schedule:
+    - cron: '15 2 * * *' # Run daily at 2:15 AM UTC (offset to avoid peak times)
+
+jobs:
+  update-pricing:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to push changes
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Full history for better diffs
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        pip install beautifulsoup4 requests playwright pytest-playwright pandas
+        playwright install chromium
+    
+    - name: Scrape pricing data
+      run: python scripts/scrape_pricing.py
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Validate pricing data
+      run: python scripts/validate_pricing.py
+    
+    - name: Commit and push if changed
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add -A
+        
+        # Check if there are changes
+        if git diff --staged --quiet; then
+          echo "No changes to pricing data"
+        else
+          timestamp=$(date -u)
+          git commit -m "🤖 Update AI pricing data: ${timestamp}"
+          git push
+        fi
+    
+    - name: Upload pricing artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: pricing-data-${{ github.run_id }}
+        path: |
+          data/pricing/
+          logs/

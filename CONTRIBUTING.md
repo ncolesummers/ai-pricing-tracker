@@ -69,18 +69,70 @@ mypy src
 
 ## Commit Messages
 
-- Use clear, descriptive commit messages
-- Start with a verb in present tense (e.g., "Add", "Fix", "Update")
-- Reference issues and pull requests where appropriate
+This project follows [Conventional Commits](https://www.conventionalcommits.org/) for clear, structured commit messages that make the project history readable and enable automated releases.
 
-Example:
+### Format
+
 ```
-Add support for Microsoft Azure OpenAI pricing
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types
+
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation-only changes
+- **style**: Changes that don't affect code meaning (formatting, whitespace)
+- **refactor**: Code changes that neither fix bugs nor add features
+- **perf**: Performance improvements
+- **test**: Adding or correcting tests
+- **build**: Changes to build system or dependencies
+- **ci**: Changes to CI configuration
+- **chore**: Other changes that don't modify src or test files
+
+### Scope
+
+Optional scope for specifying the section of the codebase:
+- **api**: Changes to the Python API
+- **cli**: Command line interface changes
+- **scraper**: Price scraping functionality
+- **models**: Data models and structures
+- **deps**: Dependency updates
+
+### Breaking Changes
+
+Mark breaking changes with `!` and explain in the body:
+
+```
+feat(api)!: remove deprecated pricing methods
+
+BREAKING CHANGE: pricing.get_legacy() has been removed in favor of the new pricing.get() method.
+```
+
+### Examples
+
+```
+feat(scraper): add support for Microsoft Azure OpenAI pricing
 
 - Implement Azure pricing scraper
 - Add default fallback pricing
 - Update tests and documentation
-- Fixes #42
+
+Closes #42
+```
+
+```
+fix(models): correct token calculation for Claude models
+
+Fixes incorrect token pricing calculations when context and output have different rates.
+```
+
+```
+chore(deps): update development dependencies
 ```
 
 ## Release Process

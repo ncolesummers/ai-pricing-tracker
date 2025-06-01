@@ -198,6 +198,12 @@ We welcome contributions! Areas where you can help:
 - Add cost optimization features
 - Create integrations with popular frameworks
 
+Please see our [Contributing Guide](CONTRIBUTING.md) for more information.
+
+### Commit Convention
+
+This project follows [Conventional Commits](https://www.conventionalcommits.org/) for clear, structured commit messages. See our [Commit Convention Guide](docs/COMMIT_CONVENTION.md) for detailed examples and guidelines.
+
 ## Development
 
 ```bash
@@ -211,12 +217,45 @@ pip install -e ".[dev]"
 # Run tests
 pytest
 
+# Run with coverage report
+pytest --cov=ai_pricing_tracker
+
+# Run specific test categories
+pytest tests/test_integration/
+pytest tests/test_validation/
+pytest tests/test_property/
+
 # Format code
 black src tests
 
 # Type checking
 mypy src
 ```
+
+## Testing Strategy
+
+The project employs a comprehensive testing approach:
+
+### Unit Tests
+- Core functionality tests for PricingManager and ModelPricing classes
+- Mock-based testing to avoid network dependencies
+- Focused on correctness of individual components
+
+### Integration Tests
+- Tests for the scraper with realistic HTML fixtures
+- Validates the scraper's ability to extract pricing from provider websites
+- Ensures compatibility with different pricing formats and structures
+
+### Validation Tests
+- Tests for pricing data validation logic
+- Verifies detection of missing, invalid, or suspicious pricing data
+- Ensures data integrity before it's used in production
+
+### Property-Based Tests
+- Tests using hypothesis to generate diverse test inputs
+- Validates mathematical properties of pricing calculations
+- Checks scaling, additivity, and boundary behavior
+- Ensures pricing logic holds true across a wide range of inputs
 
 ## How It Works
 

@@ -20,6 +20,10 @@ AI Pricing Tracker is a Python package that provides up-to-date pricing informat
 git clone https://github.com/colesummers/ai-pricing-tracker.git
 cd ai-pricing-tracker
 
+# Create and activate virtual environment (located in .venv)
+python -m venv .venv
+source .venv/bin/activate  # On Windows, use: .venv\Scripts\activate
+
 # Install in development mode with all dependencies
 pip install -e ".[dev]"
 ```
@@ -119,3 +123,11 @@ The package follows a clean, modular architecture:
 4. **Data Structure**:
    - Pricing data follows a specific JSON format
    - Model identifiers use format: "provider/model-name"
+
+5. **Commit Guidelines**:
+   - Follow [Conventional Commits](https://www.conventionalcommits.org/) format
+   - Use format: `type(scope): description`
+   - Common types: feat, fix, docs, style, refactor, perf, test, build, ci, chore
+   - Include scope when relevant (e.g., api, cli, scraper, models)
+   - Mark breaking changes with `!` and a BREAKING CHANGE footer
+   - See [Commit Convention Guide](docs/COMMIT_CONVENTION.md) for details

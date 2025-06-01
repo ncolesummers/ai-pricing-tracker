@@ -14,18 +14,21 @@ from typing import Dict, Optional
 class ModelPricing:
     """
     Pricing information for a single AI model.
-    
+
     This class stores the pricing details for a specific AI model,
     including input and output token costs.
-    
+
     Attributes:
-        input_price: Price per 1 million input (prompt) tokens in the specified currency
-        output_price: Price per 1 million output (completion) tokens in the specified currency
+        input_price: Price per 1 million input (prompt) tokens in the specified
+            currency
+        output_price: Price per 1 million output (completion) tokens in the specified
+            currency
         currency: Currency code for the pricing (default: "USD")
         notes: Optional additional information about the model or pricing
-    
+
     Examples:
-        >>> model_pricing = ModelPricing(15.0, 75.0, "USD", "Most powerful model")
+        >>> model_pricing = ModelPricing(15.0, 75.0, "USD",
+        ...     "Most powerful model")
         >>> cost = model_pricing.calculate_cost(1000, 500)
         >>> print(f"API call cost: ${cost:.4f}")
     """
@@ -38,17 +41,17 @@ class ModelPricing:
     def calculate_cost(self, input_tokens: int, output_tokens: int) -> float:
         """
         Calculate cost for given token counts.
-        
+
         Computes the total cost for an API call based on the number of
         input and output tokens used.
-        
+
         Args:
             input_tokens: Number of input/prompt tokens
             output_tokens: Number of output/completion tokens
-            
+
         Returns:
             Total cost in the model's currency, rounded to 6 decimal places
-            
+
         Examples:
             >>> model = ModelPricing(15.0, 75.0)
             >>> cost = model.calculate_cost(1000, 500)
@@ -61,18 +64,19 @@ class ModelPricing:
     def to_dict(self) -> dict:
         """
         Convert to dictionary representation.
-        
+
         Creates a dictionary representation of the model pricing information,
         suitable for serialization to JSON.
-        
+
         Returns:
             Dictionary with input price, output price, currency, and notes
-            
+
         Examples:
             >>> model = ModelPricing(15.0, 75.0, notes="Premium model")
             >>> model_dict = model.to_dict()
             >>> print(model_dict)
-            {'input': 15.0, 'output': 75.0, 'currency': 'USD', 'notes': 'Premium model'}
+            {'input': 15.0, 'output': 75.0, 'currency': 'USD',
+            'notes': 'Premium model'}
         """
         return {
             "input": self.input_price,
@@ -86,16 +90,16 @@ class ModelPricing:
 class PricingData:
     """
     Container for all pricing data across providers and models.
-    
+
     This class aggregates pricing information for multiple AI models
     across different providers, with metadata about when the pricing
     was last updated.
-    
+
     Attributes:
         last_updated: Timestamp when the pricing data was last updated
         models: Dictionary mapping model identifiers to ModelPricing objects
         source_url: Optional URL where the pricing data was obtained from
-        
+
     Notes:
         Model identifiers are typically in the format "provider/model-name",
         such as "anthropic/claude-opus-4" or "openai/gpt-4".
@@ -109,7 +113,7 @@ class PricingData:
     def from_dict(cls, data: dict) -> "PricingData":
         """
         Create PricingData from dictionary.
-        
+
         Parses a dictionary (typically from JSON) into a PricingData object.
         The dictionary should have the following structure:
         {
@@ -125,13 +129,13 @@ class PricingData:
                 ...
             }
         }
-        
+
         Args:
             data: Dictionary containing pricing data
-            
+
         Returns:
             Populated PricingData object
-            
+
         Examples:
             >>> data = {
             ...     "last_updated": "2025-01-01T00:00:00Z",
@@ -159,18 +163,22 @@ class PricingData:
         else:
             last_updated = last_updated_str
 
-        return cls(last_updated=last_updated, models=models, source_url=data.get("source_url"))
+        return cls(
+            last_updated=last_updated,
+            models=models,
+            source_url=data.get("source_url"),
+        )
 
     def to_dict(self) -> dict:
         """
         Convert to dictionary representation.
-        
+
         Creates a dictionary representation of all pricing data,
         suitable for serialization to JSON.
-        
+
         Returns:
             Dictionary with last_updated timestamp, source_url, and all model pricing
-            
+
         Examples:
             >>> pricing_data = PricingData(
             ...     datetime.fromisoformat("2025-01-01T00:00:00"),
@@ -188,14 +196,14 @@ class PricingData:
     def get_default(cls) -> "PricingData":
         """
         Get default pricing data as fallback.
-        
+
         Creates a PricingData object with hardcoded default pricing
         for common models. This is used as a fallback when no other
         pricing data is available.
-        
+
         Returns:
             PricingData object with default pricing for common models
-            
+
         Notes:
             The default pricing may not reflect the most current rates.
             It's intended as a last resort when network and cache access fail.

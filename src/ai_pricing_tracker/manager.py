@@ -42,7 +42,8 @@ class PricingManager:
     Examples:
         >>> from ai_pricing_tracker import PricingManager
         >>> pricing = PricingManager()
-        >>> input_price, output_price = pricing.get_model_pricing("anthropic", "claude-opus-4")
+        >>> input_price, output_price = pricing.get_model_pricing(
+        ...     "anthropic", "claude-opus-4")
         >>> cost = pricing.calculate_cost("openai", "gpt-4", 1000, 500)
         >>> models = pricing.list_models(provider="anthropic")
     """
@@ -240,7 +241,8 @@ class PricingManager:
         Examples:
             >>> pricing = PricingManager()
             >>> input_price, output_price = pricing.get_model_pricing("openai", "gpt-4")
-            >>> print(f"GPT-4 costs ${input_price}/1M input tokens, ${output_price}/1M output tokens")
+            >>> print(f"GPT-4 costs ${input_price}/1M input tokens, "
+            ...       f"${output_price}/1M output tokens")
         """
         # Load pricing data if not loaded yet
         if not self._pricing_data:
@@ -285,7 +287,8 @@ class PricingManager:
 
         Examples:
             >>> pricing = PricingManager()
-            >>> cost = pricing.calculate_cost("anthropic", "claude-opus-4", 1000, 500)
+            >>> cost = pricing.calculate_cost(
+            ...     "anthropic", "claude-opus-4", 1000, 500)
             >>> print(f"API call cost: ${cost:.4f}")
         """
         input_price, output_price = self.get_model_pricing(provider, model)
